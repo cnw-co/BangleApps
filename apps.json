@@ -2893,7 +2893,7 @@
     {"name":"univerz.png","url":"app-icon.js","evaluate":true}
   ]
 },
-	{ "id": "univerz-welcome",
+	{ "id": "univerzwelcome",
     "name": "Univerz welcome",
     "icon": "app.png",
     "version":"0.01",
@@ -2901,13 +2901,13 @@
     "tags": "start,welcome",
     "allow_emulator":true,
     "storage": [
-      {"name":"univerz-welcome.boot.js","url":"boot.js"},
-      {"name":"univerz-welcome.app.js","url":"app.js"},
-      {"name":"univerz-welcome.settings.js","url":"settings.js"},
-      {"name":"univerz-welcome.png","url":"app-icon.js","evaluate":true}
+      {"name":"univerzwelcome.boot.js","url":"boot.js"},
+      {"name":"univerzwelcome.app.js","url":"app.js"},
+      {"name":"univerzwelcome.settings.js","url":"settings.js"},
+      {"name":"univerzwelcome.png","url":"app-icon.js","evaluate":true}
     ],
     "data": [
-      {"name":"univerz-welcome.json"}
+      {"name":"univerzwelcome.json"}
     ]
   }
 ]
