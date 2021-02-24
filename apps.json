@@ -2911,7 +2911,7 @@
     ]
   },
 	{ "id": "univerzabout",
-    "name": "About",
+    "name": "Univerz about",
     "icon": "app.png",
     "version":"0.01",
     "description": "CNW About page - showing software version, stats, and a collaborative mural from the Bangle.js KickStarter backers",
