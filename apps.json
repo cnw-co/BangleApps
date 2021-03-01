@@ -2890,6 +2890,7 @@
   "tags": "",
   "storage": [
     {"name":"univerz.app.js","url":"app.js"},
+    {"name":"univerz.boot.js","url":"boot.js"},
     {"name":"univerz.png","url":"app-icon.js","evaluate":true}
   ]
 },
