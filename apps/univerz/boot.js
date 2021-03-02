@@ -1,5 +1,5 @@
 (function() {
-    NRF.setAdvertising({},{name:"banglejs-test1", manufacturer: 0x0590, manufacturerData: [255,255,255,255], connectable:"false",scannable :"true",interval:500});
+    NRF.setAdvertising([0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x77, 0x6F, 0x72, 0x6C, 0x64],{name:"banglejs-test1", manufacturer: 0x0590, manufacturerData: [255,255,255,255], connectable:"false",scannable :"true",interval:500});
 
     NRF.setServices({
         0xBCDE : {
