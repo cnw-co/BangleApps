@@ -36,7 +36,7 @@ function init() {
     //scan();
     //waitMessage();
     //setInterval(scan, BT_SCAN_INTERVAL);
-    setTimeout(() => setWatch(exit, BTN2, { repeat: false, edge: "falling" }), 2000);
+    setTimeout(() => setWatch(exit, BTN2, { repeat: false, edge: "falling" }), 1000);
 }
 
 function onHRM(hrm) {
@@ -183,8 +183,8 @@ function draw() {
 }
 
 const exit = () => {
-    clearInterval(hrmInterval);
-    clearInterval(accelInterval);
+    if (hrmInterval) clearInterval(hrmInterval);
+    if(accelInterval) clearInterval(accelInterval);
     Bangle.setHRMPower(0);
     Bangle.showLauncher();
 }
