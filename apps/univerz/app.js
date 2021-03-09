@@ -36,7 +36,7 @@ function init() {
     //scan();
     //waitMessage();
     //setInterval(scan, BT_SCAN_INTERVAL);
-    setWatch(exit, BTN2, { repeat: false, edge: "falling" });
+    setTimeout(() => setWatch(exit, BTN2, { repeat: false, edge: "falling" }));
 }
 
 function onHRM(hrm) {
