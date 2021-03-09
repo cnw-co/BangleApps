@@ -185,6 +185,7 @@ function draw() {
 const exit = () => {
     if (hrmInterval) clearInterval(hrmInterval);
     if(accelInterval) clearInterval(accelInterval);
+    NRF.setScanResponse([]);
     Bangle.setHRMPower(0);
     Bangle.showLauncher();
 }
