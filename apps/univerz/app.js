@@ -182,7 +182,7 @@ function draw() {
     E.showMenu(menu);
 }
 
-function exit() {
+const exit = () => {
     clearInterval(hrmInterval);
     clearInterval(accelInterval);
     Bangle.setHRMPower(0);
