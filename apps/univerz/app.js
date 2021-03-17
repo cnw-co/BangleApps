@@ -43,6 +43,7 @@ function onHRM(hrm) {
     hrmInfo = hrm;
     if (hrmInterval) clearInterval(hrmInterval);
     hrmInterval = setInterval(readHeartRate,ACCEL_READ_INTERVAL);
+    NRF.setTxPower(-16)
 }
 
 function readHeartRate() {
