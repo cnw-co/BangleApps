@@ -30,6 +30,7 @@ menu[NODEVICE] = {
 };
 
 function init() {
+    NRF.setTxPower(-16);
     Bangle.on('HRM', onHRM);
     accelInterval = setInterval(readAcceleration, HRM_READ_INTERVAL);
     //bluetooth scan, elvileg nem kell
@@ -43,7 +44,6 @@ function onHRM(hrm) {
     hrmInfo = hrm;
     if (hrmInterval) clearInterval(hrmInterval);
     hrmInterval = setInterval(readHeartRate,ACCEL_READ_INTERVAL);
-    NRF.setTxPower(-16)
 }
 
 function readHeartRate() {
