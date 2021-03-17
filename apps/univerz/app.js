@@ -30,7 +30,7 @@ menu[NODEVICE] = {
 };
 
 function init() {
-    NRF.setTxPower(-16);
+    NRF.setTxPower(-12);
     Bangle.on('HRM', onHRM);
     accelInterval = setInterval(readAcceleration, HRM_READ_INTERVAL);
     //bluetooth scan, elvileg nem kell
@@ -188,6 +188,7 @@ const exit = () => {
     if(accelInterval) clearInterval(accelInterval);
     NRF.setScanResponse([]);
     Bangle.setHRMPower(0);
+    NRF.setTxPower(0);
     Bangle.showLauncher();
 }
 
