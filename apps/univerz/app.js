@@ -190,6 +190,7 @@ const exit = () => {
     NRF.setScanResponse([]);
     Bangle.setHRMPower(0);
     NRF.setTxPower(0);
+    NRF.restart();
     Bangle.showLauncher();
 }
 
