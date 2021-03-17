@@ -30,7 +30,7 @@ menu[NODEVICE] = {
 };
 
 function init() {
-    NRF.setTxPower(-4);
+    NRF.setTxPower(-8);
     NRF.restart();
     Bangle.on('HRM', onHRM);
     accelInterval = setInterval(readAcceleration, HRM_READ_INTERVAL);
