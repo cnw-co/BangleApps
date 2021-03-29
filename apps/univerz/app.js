@@ -21,7 +21,7 @@ let mainMenu = {
   "Exit" : function() { exit(); }, // remove the menu
 };
 
-const txPowerOptions = [-20, -16, -8, -4, 0];
+const txPowerOptions = [-20, -16, -8, -4, 0, 4];
 
 let txPowerMenu = {};
 
