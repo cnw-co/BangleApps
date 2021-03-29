@@ -26,6 +26,7 @@ const txPowerOptions = [-20, -16, -8, -4, 0];
 let txPowerMenu = {};
 
 function init() {
+    mainMenu[NRF.getAddress()] = function() {};
     NRF.setTxPower(0);
     Bangle.on('HRM', onHRM);
     accelInterval = setInterval(readAcceleration, HRM_READ_INTERVAL);
