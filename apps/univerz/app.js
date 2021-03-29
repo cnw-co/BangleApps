@@ -7,38 +7,52 @@ let accelInterval;
 Bangle.setHRMPower(1);
 Bangle.setPollInterval(250);
 
+let txPower = 0;
+
 const BT_SCAN_INTERVAL = 5000;
 
 const HRM_READ_INTERVAL = 5000;
 
 const ACCEL_READ_INTERVAL = 5000;
 
-const NODEVICE = 'No devices found';
-
-// a bluetooth adok mac cimei
-let permittedBLEReceivers = ["3c:71:bf:4f:c1:22", "30:ae:a4:0e:8f:ee"];
-
-//legkozelebbi bluetooth ado mac cime
-let nearestBLEReceiver = "";
-
-const menu = {
+let mainMenu = {
+  "" : { "title" : "-- Main Menu --" },
+  "Set tx power" : function() { getTxPowerMenu(); },
+  "Exit" : function() { exit(); }, // remove the menu
 };
 
-menu[NODEVICE] = {
-    value : "",
-    onchange : () => {}
-};
+const txPowerOptions = [-20, -16, -8, -4, 0];
+
+let txPowerMenu = {};
 
 function init() {
-    NRF.setTxPower(-12);
+    NRF.setTxPower(0);
     Bangle.on('HRM', onHRM);
     accelInterval = setInterval(readAcceleration, HRM_READ_INTERVAL);
-    //bluetooth scan, elvileg nem kell
-    //scan();
-    //waitMessage();
-    //setInterval(scan, BT_SCAN_INTERVAL);
-    setTimeout(() => setWatch(exit, BTN2, { repeat: false, edge: "falling" }), 1000);
+    E.showMenu(mainMenu);
 }
+
+function getTxPowerMenu() {
+  txPowerMenu = {};
+  txPowerMenu[""] = {"title": "-- Set tx power (dbm) --"};
+  console.log("txPower: " + txPower);
+  txPowerOptions.forEach((val, index) => {
+    if (txPower === val) {
+      txPowerMenu["" + val + "*"] = () => setTxPower(val);
+    } else {
+      txPowerMenu["" + val] = () => setTxPower(val);
+    }
+  });
+  txPowerMenu["< Back"] = function() { E.showMenu(mainMenu); };
+  E.showMenu(txPowerMenu);
+}
+
+const setTxPower = (power) => {
+  NRF.setTxPower(power);
+  txPower = power;
+  console.log("new txPower: " + txPower);
+  E.showMenu(mainMenu);
+};
 
 function onHRM(hrm) {
     hrmInfo = hrm;
@@ -133,30 +147,6 @@ function addLeadingZeros(value) {
     return value;
 }
 
-function scan() {
-    NRF.findDevices(devices => {
-        // for (let device of devices) {
-        //
-        //     // Only display devices that advertise a name
-        //
-        //     if (device.name) {
-        //         // Remove no devices found message if it is present
-        //         if (menu[NODEVICE]) {
-        //             delete menu[NODEVICE];
-        //         }
-        //         menu[device.name] = {
-        //             value : device.rssi,
-        //             onchange : () => {}
-        //         };
-        //         Terminal.println("device name: " + device.name + ", rssi: " + device.rssi);
-        //         Terminal.println("device id" + device.id);
-        //     }
-        // }
-        getNearestBLEReceiver(devices);
-        // draw();
-    }, { active: true });
-}
-
 function getNearestBLEReceiver(devices) {
     let nearestDevice = "";
     let nearestDeviceRssi;
@@ -179,18 +169,15 @@ function waitMessage() {
     E.showMessage('scanning');
 }
 
-function draw() {
-    E.showMenu(menu);
-}
-
 const exit = () => {
     if (hrmInterval) clearInterval(hrmInterval);
     if(accelInterval) clearInterval(accelInterval);
+    E.showMenu();
     NRF.setScanResponse([]);
     Bangle.setHRMPower(0);
     NRF.setTxPower(0);
     NRF.restart();
     Bangle.showLauncher();
-}
+};
 
 init();
