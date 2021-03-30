@@ -4,61 +4,85 @@ let hrmInterval;
 // {x, y, z, mag, diff}
 let accelInfo;
 let accelInterval;
-Bangle.setHRMPower(1);
-Bangle.setPollInterval(250);
 
-let txPower = 0;
+let advertiseStarted = false;
 
-const BT_SCAN_INTERVAL = 5000;
+// let txPower = 0;
 
-const HRM_READ_INTERVAL = 5000;
+const SENSOR_READ_INTERVAL = 2000;
 
-const ACCEL_READ_INTERVAL = 5000;
+// let mainMenu = {
+//     "" : { "title" : "-- Main Menu --" },
+//     "Set tx power" : function() { getTxPowerMenu(); },
+//     "Exit" : function() { exit(); }, // remove the menu
+// };
 
-let mainMenu = {
-  "" : { "title" : "-- Main Menu --" },
-  "Set tx power" : function() { getTxPowerMenu(); },
-  "Exit" : function() { exit(); }, // remove the menu
-};
+// const txPowerOptions = [-20, -16, -8, -4, 0];
 
-const txPowerOptions = [-20, -16, -8, -4, 0, 4];
-
-let txPowerMenu = {};
+// let txPowerMenu = {};
 
 function init() {
+    NRF.setTxPower(4);
+    Bangle.setPollInterval(250);
+    getMainMenu();
+}
+
+function getMainMenu() {
+    let mainMenu = {"": {"title": ""}};
+    if (!advertiseStarted) {
+        mainMenu['Start'] = () => {start();};
+    } else {
+        mainMenu['Stop'] = () => {stop();};
+    }
     mainMenu[NRF.getAddress()] = function() {};
-    NRF.setTxPower(0);
-    Bangle.on('HRM', onHRM);
-    accelInterval = setInterval(readAcceleration, HRM_READ_INTERVAL);
+    mainMenu["Kilepes"] = () => {exit();}
     E.showMenu(mainMenu);
 }
 
-function getTxPowerMenu() {
-  txPowerMenu = {};
-  txPowerMenu[""] = {"title": "-- Set tx power (dbm) --"};
-  console.log("txPower: " + txPower);
-  txPowerOptions.forEach((val, index) => {
-    if (txPower === val) {
-      txPowerMenu["" + val + "*"] = () => setTxPower(val);
-    } else {
-      txPowerMenu["" + val] = () => setTxPower(val);
-    }
-  });
-  txPowerMenu["< Back"] = function() { E.showMenu(mainMenu); };
-  E.showMenu(txPowerMenu);
+function start() {
+    Bangle.setHRMPower(1);
+    Bangle.on('HRM', onHRM);
+    accelInterval = setInterval(readAcceleration, SENSOR_READ_INTERVAL);
+    advertiseStarted = !advertiseStarted;
+    getMainMenu();
 }
 
-const setTxPower = (power) => {
-  NRF.setTxPower(power);
-  txPower = power;
-  console.log("new txPower: " + txPower);
-  E.showMenu(mainMenu);
-};
+function stop() {
+    Bangle.setHRMPower(0);
+    Bangle.on('HRM', function() {});
+    NRF.setScanResponse([]);
+    if (hrmInterval) clearInterval(hrmInterval);
+    if(accelInterval) clearInterval(accelInterval);
+    advertiseStarted = !advertiseStarted;
+    getMainMenu();
+}
+
+// function getTxPowerMenu() {
+//         txPowerMenu = {};
+//         txPowerMenu[""] = {"title": "-- Set tx power (dbm) --"};
+//         console.log("txPower: " + txPower);
+//         txPowerOptions.forEach((val, index) => {
+//             if (txPower === val) {
+//             txPowerMenu["" + val + "*"] = () => setTxPower(val);
+//         } else {
+//             txPowerMenu["" + val] = () => setTxPower(val);
+//         }
+//     });
+//     txPowerMenu["< Back"] = function() { E.showMenu(mainMenu); };
+//     E.showMenu(txPowerMenu);
+// }
+
+// const setTxPower = (power) => {
+//     NRF.setTxPower(power);
+//     txPower = power;
+//     console.log("new txPower: " + txPower);
+//     E.showMenu(mainMenu);
+// };
 
 function onHRM(hrm) {
     hrmInfo = hrm;
     if (hrmInterval) clearInterval(hrmInterval);
-    hrmInterval = setInterval(readHeartRate,ACCEL_READ_INTERVAL);
+    hrmInterval = setInterval(readHeartRate,SENSOR_READ_INTERVAL);
 }
 
 function readHeartRate() {
@@ -85,7 +109,9 @@ function readAcceleration() {
         // Terminal.println("diff: " + accelInfo.diff);
         // Terminal.println("magnitude: " + accelInfo.mag);
         // Terminal.println("");
-        sendOnBluetooth();
+        if (hrmInfo) {
+            sendOnBluetooth();
+        }
     }
 }
 
@@ -146,28 +172,6 @@ function addLeadingZeros(value) {
         value = zeros + value;
     }
     return value;
-}
-
-function getNearestBLEReceiver(devices) {
-    let nearestDevice = "";
-    let nearestDeviceRssi;
-    for (let device of devices) {
-        let deviceId = device.id.split(" ")[0];
-        if (permittedBLEReceivers.indexOf(deviceId, 0) === -1) {
-            continue;
-        }
-        if (!nearestDeviceRssi || device.rssi > nearestDeviceRssi) {
-            nearestDeviceRssi = device.rssi;
-            nearestDevice = deviceId;
-        }
-    }
-    nearestBLEReceiver = nearestDevice;
-    //Terminal.println("nearest bt receiver: " + nearestBLEReceiver);
-}
-
-
-function waitMessage() {
-    E.showMessage('scanning');
 }
 
 const exit = () => {
