@@ -9,7 +9,7 @@ let advertiseStarted = false;
 
 // let txPower = 0;
 
-const SENSOR_READ_INTERVAL = 2000;
+const SENSOR_READ_INTERVAL = 20000;
 
 // let mainMenu = {
 //     "" : { "title" : "-- Main Menu --" },
