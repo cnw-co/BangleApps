@@ -2884,7 +2884,7 @@
 	{ "id": "univerz",
   "name": "Univerz app",
   "shortName":"CNW Univerz",
-  "icon": "app.png",
+  "icon": "univerz.png",
   "version":"0.01",
   "description": "Univerz app bluetooth kommunikációhoz",
   "tags": "",
