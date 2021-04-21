@@ -2882,7 +2882,7 @@
   ]
 }, 
 { "id": "univerz",
-  "name": "Univerz app",
+  "name": "Univerz",
   "icon": "app.png",
   "version":"0.01",
   "description": "Univerz app to read sensor datas and send it through bluetooth advertising",
