@@ -2881,11 +2881,11 @@
     {"name":"helloworld.img","url":"app-icon.js","evaluate":true}
   ]
 }, 
-	{ "id": "univerz",
+{ "id": "univerz",
   "name": "Univerz app",
   "icon": "app.png",
   "version":"0.01",
-  "description": "Univerz app bluetooth kommunikációhoz",
+  "description": "Univerz app to read sensor datas and send it through bluetooth advertising",
   "tags": "bluetooth,hrm",
   "storage": [
     {"name":"univerz.app.js","url":"app.js"},
