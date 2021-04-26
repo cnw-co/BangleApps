@@ -2889,7 +2889,7 @@
   "tags": "bluetooth,hrm",
   "storage": [
     {"name":"univerz.app.js","url":"app.js"},
-    {"name":"univerz.png","url":"app-icon.js","evaluate":true}
+    {"name":"univerz.img","url":"app-icon.js","evaluate":true}
   ]
 },
 	{ "id": "univerzwelcome",
